@@ -5,7 +5,7 @@ import "os"
 var (
 	Port          = getEnv("PORT", "8080")
 	WorkingDir    = getEnv("WORKING_DIR", "/tmp/build-job")
-	DockerImage   = getEnv("Docker_IMAGE", "golang:1.21")
+	DockerImage   = getEnv("DOCKER_IMAGE", "golang:1.21")
 	WebhookSecret = getEnv("WEBHOOK_SECRET", "")
 )
 
