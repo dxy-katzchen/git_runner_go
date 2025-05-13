@@ -1,1 +1,8 @@
+# environment variables, should include
+# PORT=
+# WORKING_DIR=
+# DOCKER_IMAGE=
+# WEBHOOK_SECRET=
 .env
+# Air live reload artifacts
+/tmp/*
