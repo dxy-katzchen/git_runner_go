@@ -1,0 +1,32 @@
+{
+  // Go specific settings
+  "go.useLanguageServer": true,
+  "go.lintTool": "golangci-lint",
+  "go.lintOnSave": "package",
+  "go.formatTool": "goimports",
+  "go.testOnSave": false,
+
+  // Editor settings for Go development
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+
+  // File exclusions (to avoid indexing tmp and build artifacts)
+  "files.exclude": {
+    "**/.git": true,
+    "**/tmp": true,
+    "**/build-errors.log": true
+  },
+
+  // Terminal settings
+  "terminal.integrated.env.osx": {
+    "PATH": "${env:PATH}:/usr/local/go/bin:${env:GOPATH}/bin"
+  },
+
+  // Search settings to exclude build artifacts
+  "search.exclude": {
+    "**/tmp": true,
+    "**/vendor": true
+  }
+}
