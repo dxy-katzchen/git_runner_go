@@ -8,11 +8,12 @@ import (
 	"strings"
 )
 
-func RunDockerJob(workDir string) {
+func RunDockerJob(workDir string) map[string]string {
 	fmt.Println("Scanning for Docker services in repository...")
 
-	// Track found services
+	// Track found services and built images
 	foundServices := 0
+	builtImages := make(map[string]string)
 
 	// Walk through the repository to find Dockerfiles
 	err := filepath.Walk(workDir, func(path string, info os.FileInfo, err error) error {
@@ -39,7 +40,12 @@ func RunDockerJob(workDir string) {
 
 			// Build Docker image
 			foundServices++
-			buildDockerImage(serviceDir, path, serviceName)
+			imageName := buildDockerImage(serviceDir, path, serviceName)
+
+			// Store successful builds
+			if imageName != "" {
+				builtImages[serviceName] = imageName
+			}
 		}
 
 		return nil
@@ -54,9 +60,11 @@ func RunDockerJob(workDir string) {
 	} else {
 		fmt.Printf("Found and processed %d Docker services\n", foundServices)
 	}
+
+	return builtImages
 }
 
-func buildDockerImage(servicePath, dockerfilePath, serviceName string) {
+func buildDockerImage(servicePath, dockerfilePath, serviceName string) string {
 	fmt.Printf("Building service from %s...\n", servicePath)
 
 	// Create a lowercase tag name for Docker (Docker requires lowercase repository names)
@@ -72,11 +80,15 @@ func buildDockerImage(servicePath, dockerfilePath, serviceName string) {
 	fmt.Printf("=== Build output for %s ===\n", serviceName)
 	fmt.Println(string(output))
 
+	// Return the image name on success, empty string on failure
 	if err != nil {
 		fmt.Printf("Docker build failed for %s: %v\n", serviceName, err)
+		return ""
 	} else {
 		fmt.Printf("Successfully built %s service\n", serviceName)
-		fmt.Printf("Image available as: project-%s:local\n", lowerServiceName)
+		imageName := fmt.Sprintf("project-%s:local", lowerServiceName)
+		fmt.Printf("Image available as: %s\n", imageName)
+		return imageName
 	}
-	fmt.Println("-----------------------------------")
+
 }

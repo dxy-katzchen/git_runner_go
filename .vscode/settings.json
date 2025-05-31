@@ -9,7 +9,7 @@
   // Editor settings for Go development
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true
+    "source.organizeImports": "explicit"
   },
 
   // File exclusions (to avoid indexing tmp and build artifacts)

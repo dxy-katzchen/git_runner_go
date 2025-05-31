@@ -82,6 +82,7 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	go runner.RunJob(payload.Repository.CloneURL, payload.After)
+	go runner.RunJob(payload.Repository.CloneURL, payload.After,
+		config.DeployEnabled, config.DeployConfigPath)
 	w.WriteHeader(http.StatusAccepted)
 }
